@@ -27,7 +27,7 @@ npm install
 2. **Configure environment:**
 Create `.env.local` file:
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_BASE_URL=https://your-backend.onrender.com
 ```
 
 3. **Start development server:**
@@ -107,7 +107,7 @@ frontend/
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `NEXT_PUBLIC_API_URL` | Backend API URL | Yes |
+| `NEXT_PUBLIC_API_BASE_URL` | Backend API URL (e.g., https://your-backend.onrender.com) | Yes |
 
 ## Development
 
@@ -129,7 +129,7 @@ npm run build
 ### Vercel (Recommended)
 
 1. Connect GitHub repository
-2. Set environment variable: `NEXT_PUBLIC_API_URL`
+2. Set environment variable: `NEXT_PUBLIC_API_BASE_URL=https://your-backend.onrender.com`
 3. Deploy automatically on push
 
 ### Other Platforms

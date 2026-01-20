@@ -2,7 +2,11 @@
 
 import type { DecisionInput, Decision, DecisionListItem, ReflectionInsight } from './types'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+
+if (!API_BASE_URL) {
+  throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable is not defined. Please set it to your backend URL.')
+}
 
 class APIError extends Error {
   constructor(message: string, public status?: number) {
@@ -12,7 +16,7 @@ class APIError extends Error {
 }
 
 export async function createDecision(input: DecisionInput): Promise<Decision> {
-  const response = await fetch(`${API_BASE_URL}/api/decisions`, {
+  const response = await fetch(`${API_BASE_URL}/decision`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
@@ -27,7 +31,7 @@ export async function createDecision(input: DecisionInput): Promise<Decision> {
 }
 
 export async function getDecisions(): Promise<{ decisions: DecisionListItem[] }> {
-  const response = await fetch(`${API_BASE_URL}/api/decisions`)
+  const response = await fetch(`${API_BASE_URL}/decision`)
 
   if (!response.ok) {
     throw new APIError('Failed to fetch decisions', response.status)
@@ -37,7 +41,7 @@ export async function getDecisions(): Promise<{ decisions: DecisionListItem[] }>
 }
 
 export async function getDecision(id: string): Promise<Decision> {
-  const response = await fetch(`${API_BASE_URL}/api/decisions/${id}`)
+  const response = await fetch(`${API_BASE_URL}/decision/${id}`)
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -53,7 +57,7 @@ export async function addReflection(
   id: string,
   actualOutcome: string
 ): Promise<{ reflection_insight: ReflectionInsight }> {
-  const response = await fetch(`${API_BASE_URL}/api/decisions/${id}/reflect`, {
+  const response = await fetch(`${API_BASE_URL}/decision/${id}/reflect`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ actual_outcome: actualOutcome }),
